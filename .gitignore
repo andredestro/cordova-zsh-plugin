@@ -1,0 +1,5 @@
+# Ignore macOS files
+.DS_Store
+
+# Ignore zsh history
+.zsh_history
