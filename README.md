@@ -113,6 +113,31 @@ zplug "andredestro/cordova-zsh-plugin"
 
 ---
 
+### Homebrew
+
+If you use [Homebrew](https://brew.sh):
+
+```sh
+brew tap andredestro/tap
+brew install cordova-zsh-plugin
+```
+
+Then add the following to your `~/.zshrc`:
+
+```sh
+source "$(brew --prefix)/share/cordova-zsh-plugin/cordova.plugin.zsh"
+```
+
+Reload zsh:
+
+```sh
+source ~/.zshrc
+```
+
+Tab completion is installed automatically to `$(brew --prefix)/share/zsh/site-functions/_cordova`.
+
+---
+
 ## Troubleshooting
 
 **`cordova: command not found`**
