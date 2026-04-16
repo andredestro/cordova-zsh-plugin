@@ -1,0 +1,88 @@
+#compdef cdv cordova
+# Zsh completion for Apache Cordova and the cdv alias
+
+_cordova_platforms() {
+  local -a platforms
+  platforms=(
+    'android:Android platform'
+    'ios:iOS platform'
+    'browser:Browser platform'
+  )
+  _describe 'platform' platforms
+}
+
+_cordova() {
+  local state
+  local -a commands
+
+  commands=(
+    'create:Create a new Cordova project'
+    'build:Build the project for a platform'
+    'run:Deploy the app to a device or emulator'
+    'emulate:Deploy the app to an emulator'
+    'prepare:Copy web assets to native platforms'
+    'compile:Compile native code only'
+    'serve:Run a local web server for project assets'
+    'platform:Manage platforms (add/rm/update/list)'
+    'plugin:Manage plugins (add/rm/update/list)'
+    'requirements:Check system requirements for platforms'
+    'clean:Clean build artifacts'
+    'info:Print project and environment info'
+    'telemetry:Manage telemetry settings'
+  )
+
+  _arguments -C \
+    '(- *)'{-v,--version}'[print version]' \
+    '(- *)'{-h,--help}'[show help]' \
+    '--no-telemetry[disable telemetry for this command]' \
+    '--verbose[enable verbose output]' \
+    '1:command:->command' \
+    '*:args:->args'
+
+  case $state in
+    command)
+      _describe 'cordova command' commands
+      ;;
+    args)
+      case $words[2] in
+        build|run|emulate|prepare|compile|clean|requirements)
+          _cordova_platforms
+          ;;
+        platform)
+          local -a platform_cmds
+          platform_cmds=(
+            'add:Add a platform'
+            'rm:Remove a platform'
+            'remove:Remove a platform'
+            'update:Update a platform'
+            'list:List installed platforms'
+            'check:Check for platform updates'
+          )
+          _describe 'platform command' platform_cmds
+          ;;
+        plugin)
+          local -a plugin_cmds
+          plugin_cmds=(
+            'add:Add a plugin'
+            'rm:Remove a plugin'
+            'remove:Remove a plugin'
+            'update:Update a plugin'
+            'list:List installed plugins'
+            'search:Search for plugins in npm'
+          )
+          _describe 'plugin command' plugin_cmds
+          ;;
+        telemetry)
+          local -a tel_opts
+          tel_opts=('on:Enable telemetry' 'off:Disable telemetry')
+          _describe 'telemetry option' tel_opts
+          ;;
+        create)
+          _message 'path [id [name]]'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_cordova "$@"
